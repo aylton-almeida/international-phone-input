@@ -1,0 +1,22 @@
+.main {
+  height: 100%;
+  width: 100%;
+
+  display: grid;
+  place-items: center;
+
+  background-color: #2e2e2e;
+}
+
+.container {
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+
+  height: 400px;
+  aspect-ratio: 2 / 1;
+  max-width: 80%;
+
+  display: grid;
+  place-items: center;
+}
