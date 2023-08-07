@@ -14,8 +14,8 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 1);
 
   height: 400px;
-  aspect-ratio: 2 / 1;
-  max-width: 80%;
+  width: 80%;
+  max-width: 800px;
 
   display: grid;
   place-items: center;
