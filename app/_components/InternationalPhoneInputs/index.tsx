@@ -1,8 +1,12 @@
 'use client'
 
-import { useState } from 'react'
-import { CountryCode, MASK_CHAR, countriesData } from './constants'
+import { useId, useState } from 'react'
+import { CountryCode, countriesData } from './constants'
 import { applyPhoneMask } from './utils'
+import Image from 'next/image'
+
+import styles from './styles.module.css'
+import { CountrySelect } from './components/CountrySelect'
 
 type InternationalPhoneInputProps = {
   required?: boolean
@@ -11,32 +15,36 @@ type InternationalPhoneInputProps = {
 export const InternationalPhoneInput = ({
   required
 }: InternationalPhoneInputProps) => {
+  const phoneId = useId()
+
   const [countryCode, setCountryCode] = useState<CountryCode>('BR')
   const [phone, setPhone] = useState<string>('')
 
-  const countryData = countriesData[countryCode]
+  const currentCountryData = countriesData[countryCode]
 
   const onPhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const raw = event.target.value
-    const formatted = applyPhoneMask(raw, countryData.mask)
+    const formatted = applyPhoneMask(raw, currentCountryData.mask)
 
     setPhone(formatted)
   }
 
   return (
     <>
-      {/* <Image src={countryData.flag} alt={`Bandeira ${countryData.name}`} /> */}
-      <p>{countryData.prefix}</p>
+      <CountrySelect currentCountryCode={countryCode} options={countriesData} />
+      <label htmlFor={phoneId}>Celular</label>
+      <p>{currentCountryData.prefix}</p>
       <input
+        id={phoneId}
         type="tel"
+        name="phone"
         autoComplete="tel-national"
-        minLength={countryData.minLength}
-        maxLength={countryData.maxLength}
-        pattern={countryData.pattern}
-        placeholder={countryData.placeholder}
+        pattern={currentCountryData.pattern}
+        placeholder={currentCountryData.placeholder}
         required={required}
         onChange={onPhoneChange}
         value={phone}
+        className={styles.phone}
       />
     </>
   )
