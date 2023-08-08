@@ -3,10 +3,9 @@
 import { useId, useState } from 'react'
 import { CountryCode, countriesData } from './constants'
 import { applyPhoneMask } from './utils'
-import Image from 'next/image'
 
-import styles from './styles.module.css'
 import { CountrySelect } from './components/CountrySelect'
+import styles from './styles.module.css'
 
 type InternationalPhoneInputProps = {
   required?: boolean
@@ -22,6 +21,13 @@ export const InternationalPhoneInput = ({
 
   const currentCountryData = countriesData[countryCode]
 
+  const onCountryChange = (code: CountryCode) => {
+    setCountryCode(code)
+  
+    const newPhone = applyPhoneMask(phone, countriesData[code].mask)
+    setPhone(newPhone)
+  } 
+
   const onPhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const raw = event.target.value
     const formatted = applyPhoneMask(raw, currentCountryData.mask)
@@ -31,9 +37,8 @@ export const InternationalPhoneInput = ({
 
   return (
     <>
-      <CountrySelect currentCountryCode={countryCode} options={countriesData} />
       <label htmlFor={phoneId}>Celular</label>
-      <p>{currentCountryData.prefix}</p>
+      <CountrySelect currentCountryCode={countryCode} options={countriesData} onSelect={onCountryChange} />
       <input
         id={phoneId}
         type="tel"
